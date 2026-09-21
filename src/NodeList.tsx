@@ -6,6 +6,7 @@ import { getId, useId, useLayoutEffect } from '@rc-component/util';
 import VirtualList, { type ListRef } from '@rc-component/virtual-list';
 import * as React from 'react';
 import MotionTreeNode from './MotionTreeNode';
+import useDragEdgeScroll from './hooks/useDragEdgeScroll';
 import type {
   BasicDataNode,
   DataEntity,
@@ -165,6 +166,10 @@ const NodeList = React.forwardRef<NodeListRef, NodeListProps<any>>((props, ref) 
     },
     getIndentWidth: () => indentMeasurerRef.current.offsetWidth,
   }));
+
+  // =========================== Edge Scroll ============================
+  // Virtual list won't auto-scroll on drag-near-edge, so drive it manually.
+  useDragEdgeScroll({ listRef, dragging, virtual, height, itemHeight });
 
   // ============================== Motion ==============================
   const [prevExpandedKeys, setPrevExpandedKeys] = React.useState(expandedKeys);
